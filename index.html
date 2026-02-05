@@ -80,12 +80,10 @@
 
   <script>
     const karuta = [
-      { yomi: "あさがおは あさにさくはな", tori: "あさがお" },
-      { yomi: "いぬは ひとにちかいともだち", tori: "いぬ" },
-      { yomi: "うみは ひろくてあおい", tori: "うみ" },
-      { yomi: "えほんは ゆめへのとびら", tori: "えほん" },
-      { yomi: "おんがくは こころをつなぐ", tori: "おんがく" }
+      { yomi: "ベンゼン", tori: "", img: "images/benzene.png" },
+      { yomi: "トルエン", tori: "", img: "images/toluene.png" },
     ];
+
 
     let remaining = [];
     let current = null;
@@ -114,7 +112,10 @@
       karuta.forEach(item => {
         const div = document.createElement("div");
         div.className = "card";
-        div.textContent = item.tori;
+        div.innerHTML = `
+          <img src="${item.img}" style="width:100%; border-radius:8px;">
+          <div style="margin-top:6px;">${item.tori}</div>
+        `;
         div.onclick = () => selectCard(item, div);
         cardsEl.appendChild(div);
       });
