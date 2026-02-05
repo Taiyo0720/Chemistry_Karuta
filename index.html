@@ -85,6 +85,8 @@
       { yomi: "フェノール", tori: "phenol", img: "images/phenol.png" },
       { yomi: "安息香酸", tori: "benzoic acid", img: "images/benzoicAcid.png" },
       { yomi: "ナフタレン", tori: "naphthalene", img: "images/naphthalene.png" },
+      { yomi: "クロロベンゼン", tori: "chlorobenzene", img: "images/chlorobenzene.png" },
+      { yomi: "シクロヘキサン", tori: "cyclohexane", img: "images/cyclohexane.png" },
     ];
 
 
@@ -138,7 +140,7 @@
       yomiEl.textContent = current.yomi;
 
       // COMが取るまでの反応時間（難易度調整可）
-      const comDelay = 800 + Math.random() * 1000; // 0.8〜1.8秒
+      const comDelay = 1000 + Math.random() * 1000; // 0.8〜1.8秒
       clearTimeout(comTimer);
       comTimer = setTimeout(comTake, comDelay);
     }
