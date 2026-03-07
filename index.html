@@ -9,23 +9,25 @@
       font-family: system-ui, -apple-system, BlinkMacSystemFont, "Hiragino Kaku Gothic ProN", Meiryo, sans-serif;
       background: #f7f7fb;
       margin: 0;
-      padding: 16px;
+      padding: 12px;
       text-align: center;
+      touch-action: manipulation;
     }
-    h1 { margin-bottom: 8px; }
+
+    h1 { margin-bottom: 6px; font-size: 1.3rem; }
 
     #score {
       display: flex;
       justify-content: space-around;
-      margin: 12px 0;
+      margin: 8px 0;
       font-weight: bold;
-      font-size: 1.1rem;
+      font-size: 1rem;
     }
 
     #yomi {
-      font-size: 1.3rem;
-      margin: 14px 0;
-      padding: 12px;
+      font-size: 1.1rem;
+      margin: 10px 0;
+      padding: 10px;
       background: #fff;
       border-radius: 12px;
       box-shadow: 0 2px 6px rgba(0,0,0,0.1);
@@ -33,35 +35,50 @@
 
     .cards {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+      grid-template-columns: repeat(2, 1fr);
       gap: 12px;
-      margin-top: 16px;
+      margin-top: 12px;
     }
 
     .card {
       background: #ffffff;
-      border-radius: 12px;
-      padding: 12px;
+      border-radius: 16px;
+      padding: 10px;
       cursor: pointer;
       box-shadow: 0 2px 6px rgba(0,0,0,0.1);
-      transition: transform 0.1s, background 0.1s;
+      font-size: 1rem;
+      min-height: 90px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      -webkit-tap-highlight-color: transparent;
     }
 
-    .card:hover { transform: translateY(-2px); background: #eef2ff; }
+    .card:hover { background: #ffffff; }
+    .card:active { transform: scale(0.96); }
+
     .card.player { background: #c7f9cc; cursor: default; }
     .card.com { background: #ffd6d6; cursor: default; }
 
-    #status { margin-top: 12px; font-weight: bold; }
+    #status { margin-top: 8px; font-weight: bold; font-size: 0.95rem; }
 
     button {
-      margin-top: 18px;
-      padding: 10px 22px;
+      margin-top: 14px;
+      padding: 12px 28px;
       font-size: 1rem;
       border: none;
       border-radius: 999px;
       background: #6366f1;
       color: #fff;
       cursor: pointer;
+    }
+
+    @media (min-width: 600px) {
+      .cards {
+        grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+      }
+      h1 { font-size: 1.5rem; }
+      #yomi { font-size: 1.3rem; }
     }
   </style>
 </head>
@@ -80,18 +97,16 @@
 
   <script>
     const karuta = [
-      { yomi: "ベンゼン", tori: "benzene", img: "images/benzene.png" },
-      { yomi: "トルエン", tori: "toluene", img: "images/toluene.png" },
-      { yomi: "フェノール", tori: "phenol", img: "images/phenol.png" },
-      { yomi: "安息香酸", tori: "benzoic acid", img: "images/benzoicAcid.png" },
-      { yomi: "ナフタレン", tori: "naphthalene", img: "images/naphthalene.png" },
-      { yomi: "クロロベンゼン", tori: "chlorobenzene", img: "images/chlorobenzene.png" },
-      { yomi: "シクロヘキサン", tori: "cyclohexane", img: "images/cyclohexane.png" },
+      { tori: "あさがお", yomi: ["あさがおは あさにさくはな", "なつのあさを いろどるはな"] },
+      { tori: "いぬ", yomi: ["いぬは ひとにちかいともだち", "しっぽをふって むかえてくれる"] },
+      { tori: "うみ", yomi: ["うみは ひろくてあおい", "しおのかおりがする ひろいみず"] },
+      { tori: "えほん", yomi: ["えほんは ゆめへのとびら", "ページをめくれば ぼうけんがはじまる"] },
+      { tori: "おんがく", yomi: ["おんがくは こころをつなぐ", "リズムにのって たのしくなる"] }
     ];
-
 
     let remaining = [];
     let current = null;
+    let currentYomi = "";
     let playerScore = 0;
     let comScore = 0;
     let comTimer = null;
@@ -117,10 +132,7 @@
       karuta.forEach(item => {
         const div = document.createElement("div");
         div.className = "card";
-        div.innerHTML = `
-          <img src="${item.img}" style="width:100%; border-radius:8px;">
-          <div style="margin-top:6px;">${item.tori}</div>
-        `;
+        div.textContent = item.tori;
         div.onclick = () => selectCard(item, div);
         cardsEl.appendChild(div);
       });
@@ -137,10 +149,14 @@
 
       const index = Math.floor(Math.random() * remaining.length);
       current = remaining[index];
-      yomiEl.textContent = current.yomi;
 
-      // COMが取るまでの反応時間（難易度調整可）
-      const comDelay = 1000 + Math.random() * 1000; // 0.8〜1.8秒
+      // 同じ札に複数の読み札がある場合ランダムで選ぶ
+      const yomiIndex = Math.floor(Math.random() * current.yomi.length);
+      currentYomi = current.yomi[yomiIndex];
+
+      yomiEl.textContent = currentYomi;
+
+      const comDelay = 800 + Math.random() * 1000;
       clearTimeout(comTimer);
       comTimer = setTimeout(comTake, comDelay);
     }
