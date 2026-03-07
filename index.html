@@ -152,9 +152,16 @@
       nextRound();
     }
 
+    function shuffleArray(array) {
+      for (let i=0; i<10; i++) {
+        array.sort(() => Math.random() - 0.5);
+      }
+      return array;
+    };
+
     function drawCards() {
       cardsEl.innerHTML = "";
-      shuffle(karuta);
+      karuta = shuffleArray(karuta);
       karuta.forEach(item => {
         const div = document.createElement("div");
         div.className = "card";
