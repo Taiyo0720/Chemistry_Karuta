@@ -46,8 +46,8 @@
       padding: 10px;
       cursor: pointer;
       box-shadow: 0 2px 6px rgba(0,0,0,0.1);
-      font-size: 1rem;
-      min-height: 90px;
+      font-size: 1.2rem;
+      min-height: 120px;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -97,15 +97,20 @@
 
   <script>
     const karuta = [
-      { tori: "Li⁺", yomi: ["炎色反応で赤色を示した。"] },
-      { tori: "Na⁺", yomi: ["炎色反応で黄色を示した。"] },
-      { tori: "K⁺", yomi: ["炎色反応で赤紫色を示した。"] },
-      { tori: "Ca²⁺", yomi: ["炎色反応で橙赤色を示した。"] },
-      { tori: "Ba²⁺", yomi: ["炎色反応で黄緑色を示した。"] },
-      { tori: "Cu²⁺", yomi: ["炎色反応で青緑色を示した。"] }, //要検証
-      { tori: "Sr²⁺", yomi: ["炎色反応で紅色を示した。"] },
-      { tori: "Ne", yomi: ["低圧放電すると赤色の開を発した。"] },
-      { tori: "H₂S", yomi: ["水で湿らせた酢酸鉛（Ⅱ）紙が黒変した。"] },
+      { tori: "Li⁺", yomi: [{text: "炎色反応で赤色を示した。", speak: "えんしょくはんのうであかいろをしめした"}]},
+      { tori: "Na⁺", yomi: [{text: "炎色反応で黄色を示した。", speak: "えんしょくはんのうできいろをしめした"}]},
+      { tori: "K⁺", yomi: [{text: "炎色反応で赤紫色を示した。", speak: "えんしょくはんのうであかむらさきいろをしめした"}]},
+      { tori: "Ca²⁺", yomi: [{text: "炎色反応で橙赤色を示した。", speak: "えんしょくはんのうでとうせきしょくをしめした"}]},
+      { tori: "Ba²⁺", yomi: [{text: "炎色反応で黄緑色を示した。", speak: "えんしょくはんのうできみどりいろをしめした"}]},
+      { tori: "Cu²⁺", yomi: [{text: "炎色反応で青緑色を示した。", speak: "えんしょくはんのうであおみどりいろをしめした"}]}, //要検証
+      { tori: "Sr²⁺", yomi: [{text: "炎色反応で紅色を示した。", speak: "えんしょくはんのうでくれないいろをしめした"}]},
+      { tori: "Ne", yomi: [{text: "低圧放電すると赤色の光を発した。", speak: "ていあつほうでんするとあかいろのひかりをはっした"}]},
+      { tori: "H₂S", yomi: [{text: "水で湿らせた酢酸鉛（Ⅱ）紙が黒変した。", speak: "みずでしめらせたさくさんなまりしがこくへんした"}]},
+      { tori: "CO", yomi: [{text: "空気中で点火すると青色の炎をあげて燃焼し、二酸化炭素を生じた。", speak: "くうきちゅうでてんかするとあおいろのほのおをあげてねんしょうし、にさんかたんそをしょうじた"}]},
+      { tori: "CO₂", yomi: [{text: "石灰水に通じると白濁した。", speak: "せっかいすいにつうじるとはくだくした"}]},
+      { tori: "Cl₂", yomi: [{text: "さらし粉に希塩酸を加えると黄緑色の気体が生じた。", speak: "さらしこにきえんさんをくわえるときみどりいろのきたいがしょうじた"}]},
+      { tori: "Al", yomi: [{text: "酸化鉄（Ⅲ）と混合して点火すると、多量の熱を発して融解した鉄を得た。", speak: "さんかてつさんとこんごうしててんかすると、たりょうのねつをはっしてゆうかいしたてつをえた"}]},
+      { tori: "NH₃", yomi: [{text: "塩化水素と反応して白煙を生じた。", speak: "えんかすいそとはんのうしてはくえんをしょうじた"}]},
     ];
 
     let remaining = [];
@@ -125,7 +130,7 @@
       if (!('speechSynthesis' in window)) return;
       const utter = new SpeechSynthesisUtterance(text);
       utter.lang = "ja-JP";
-      utter.rate = 0.9;
+      utter.rate = 1.2;
       speechSynthesis.cancel();
       speechSynthesis.speak(utter);
     }
@@ -164,12 +169,10 @@
       current = remaining[index];
 
       const yomiIndex = Math.floor(Math.random() * current.yomi.length);
-      currentYomi = current.yomi[yomiIndex];
-
-      yomiEl.textContent = currentYomi;
-
-      // 読み上げ
-      speak(currentYomi);
+      const yomiObj = current.yomi[yomiIndex];
+      
+      yomiEl.textContent = yomiObj.text;
+      speak(yomiObj.speak);
 
       const comDelay = 800 + Math.random() * 200 * currentYomi.length;
       clearTimeout(comTimer);
