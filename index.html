@@ -181,7 +181,7 @@
       yomiEl.textContent = yomiObj.text;
       speak(yomiObj.speak);
 
-      const comDelay = 1000 + Math.random() * 2000 * yomiObj.text.length;
+      const comDelay = 1000 + Math.random() * 300 * yomiObj.text.length;
       clearTimeout(comTimer);
       comTimer = setTimeout(comTake, comDelay);
     }
