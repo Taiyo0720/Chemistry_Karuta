@@ -96,7 +96,7 @@
   <button onclick="startGame()">スタート</button>
 
   <script>
-    const karuta = [
+    var karuta = [
       { tori: "Li⁺", yomi: [{text: "炎色反応で赤色を示した。", speak: "えんしょくはんのうであかいろをしめした"}]},
       { tori: "Na⁺", yomi: [{text: "炎色反応で黄色を示した。", speak: "えんしょくはんのうできいろをしめした"}]},
       { tori: "K⁺", yomi: [{text: "炎色反応で赤紫色を示した。", speak: "えんしょくはんのうであかむらさきいろをしめした"}]},
@@ -143,6 +143,7 @@
     }
 
     function startGame() {
+      karuta = shuffleArray(karuta);
       remaining = [...karuta];
       playerScore = 0;
       comScore = 0;
@@ -161,7 +162,6 @@
 
     function drawCards() {
       cardsEl.innerHTML = "";
-      karuta = shuffleArray(karuta);
       karuta.forEach(item => {
         const div = document.createElement("div");
         div.className = "card";
