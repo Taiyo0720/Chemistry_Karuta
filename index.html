@@ -117,6 +117,15 @@
     const playerScoreEl = document.getElementById("playerScore");
     const comScoreEl = document.getElementById("comScore");
 
+    function speak(text) {
+      if (!('speechSynthesis' in window)) return;
+      const utter = new SpeechSynthesisUtterance(text);
+      utter.lang = "ja-JP";
+      utter.rate = 0.9;
+      speechSynthesis.cancel();
+      speechSynthesis.speak(utter);
+    }
+
     function startGame() {
       remaining = [...karuta];
       playerScore = 0;
@@ -150,11 +159,13 @@
       const index = Math.floor(Math.random() * remaining.length);
       current = remaining[index];
 
-      // 同じ札に複数の読み札がある場合ランダムで選ぶ
       const yomiIndex = Math.floor(Math.random() * current.yomi.length);
       currentYomi = current.yomi[yomiIndex];
 
       yomiEl.textContent = currentYomi;
+
+      // 読み上げ
+      speak(currentYomi);
 
       const comDelay = 800 + Math.random() * 1000;
       clearTimeout(comTimer);
