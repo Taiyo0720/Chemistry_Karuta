@@ -104,6 +104,8 @@
       { tori: "Ba²⁺", yomi: ["炎色反応で黄緑色を示した。"] },
       { tori: "Cu²⁺", yomi: ["炎色反応で青緑色を示した。"] }, //要検証
       { tori: "Sr²⁺", yomi: ["炎色反応で紅色を示した。"] },
+      { tori: "Ne", yomi: ["低圧放電すると赤色の開を発した。"] },
+      { tori: "H₂S", yomi: ["水で湿らせた酢酸鉛（Ⅱ）紙が黒変した。"] },
     ];
 
     let remaining = [];
@@ -169,7 +171,7 @@
       // 読み上げ
       speak(currentYomi);
 
-      const comDelay = 800 + Math.random() * 1000;
+      const comDelay = 800 + Math.random() * 200 * currentYomi.length;
       clearTimeout(comTimer);
       comTimer = setTimeout(comTake, comDelay);
     }
